@@ -35,5 +35,7 @@ Telco-Customer-Churn
  ┣ 📂reports
  ┣ README.md
  ┣ requirements.txt
+ ┣ .gitignore
+ ┣ LICENSE
 ```
 
