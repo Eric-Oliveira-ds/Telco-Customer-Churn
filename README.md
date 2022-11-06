@@ -33,6 +33,7 @@ Telco-Customer-Churn
  ┣ 📂models
  ┣ 📂notebook
  ┣ 📂reports
+ ┣ 📂scripts
  ┣ README.md
  ┣ requirements.txt
  ┣ .gitignore
