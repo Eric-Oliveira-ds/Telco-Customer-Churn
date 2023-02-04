@@ -72,19 +72,15 @@ def predict_csv():
     if request.method == 'POST':
 
         csv_file = request.files['file']
-        df = pd.read_csv(csv_file)
-        df['TotalCharges'] = df['TotalCharges'].apply(lambda x: float(x.replace(' ', '0')))
-        df['SeniorCitizen'] = df['SeniorCitizen'].map({0:'No',1:'Yes'})
-        df1 = df.set_index(['customerID']).copy()
-        df1.drop(['gender','PhoneService','Churn'], inplace=True, axis=1)
+        df1 = pd.read_csv(csv_file)
 
         pred_proba = model.predict_proba(df1)[:, 1]
 
         df1["Prediction"] = pred_proba
         df1["Prescription"] = np.where(pred_proba >= 0.50, "Potential Churn - Red alert", "No Potential Churn")
-        df1 = df1.reset_index()
+        df1 = df1.reset_index(drop=True)
 
-        response = df1.to_dict(orient="records")
+        #response = df1.to_dict(orient="records")
 
         return df1.to_html() #json.dumps(response)
     return '''
