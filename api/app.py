@@ -5,13 +5,13 @@ import pandas as pd
 import numpy as np
 
 # Load model
-model = joblib.load(open('..\models\model.pkl','rb'))
+model = joblib.load(open('models\model.pkl','rb'))
 
 app = Flask(__name__)
 
 @app.route('/')
 def predict():
-    return render_template('predict.html')
+    return render_template('api\templates\predict.html')
 
 @app.route('/predict',methods=['GET','POST'])
 def home():
@@ -68,7 +68,7 @@ def home():
             print('Enter a valid values please!')
 
 
-    return render_template('predict.html', prediction = pred_proba)
+    return render_template('api\templates\predict.html', prediction = pred_proba)
 
 @app.route('/predict_csv', methods=['GET', 'POST'])
 def predict_csv():
