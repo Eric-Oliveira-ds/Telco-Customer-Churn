@@ -1,0 +1,145 @@
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: right;
+    }
+  </style>
+  <title>Telco SA churn predict</title>
+</head>
+<body>
+  <h1 style="text-align: center;">Predict churn with a click:</h1>
+  <div style="text-align: center;">
+    <a href="/predict">
+      <input type="button" value="Predict single case">
+    </a>
+    <a href="/predict_csv">
+      <input type="button" value="Predict complete database from CSV">
+    </a>
+  </div>
+  <form action="/predict" method="post">
+    <p style="text-align: right;">Senior Citizen:
+      <select name="SeniorCitizen" style="margin-left: 10px;">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </p>
+      <p style="text-align:right;">Partner: 
+        <select name="Partner" style="margin-left:10px;">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </p>
+      <p style="text-align:right;">Dependents: 
+        <select name="Dependents" style="margin-left:10px;">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </p>
+      <p>Tenure: <input type="text" name="tenure" /></p>
+      <p style="text-align:right;">Multiple Lines: 
+        <select name="MultipleLines" style="margin-left:10px;">
+          <option value="No">No</option>
+          <option value="No phone service">No phone service</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </p>
+      <p style="text-align:right;">Internet Service: 
+        <select name="InternetService" style="margin-left:10px;">
+          <option value="DSL">DSL</option>
+          <option value="Fiber optic">Fiber optic</option>
+          <option value="No">No</option>
+        </select>
+      </p>
+      <p style="text-align:right;">Online Security: 
+        <select name="OnlineSecurity" style="margin-left:10px;">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p style="text-align:right;">Online Backup: 
+        <select name="OnlineBackup" style="margin-left:10px;">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p>Device Protection: 
+        <select name="DeviceProtection">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p>Tech Support: 
+        <select name="TechSupport">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p>Streaming TV: 
+        <select name="StreamingTV">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p>Streaming Movies: 
+        <select name="StreamingMovies">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No internet service">No internet service</option>
+        </select>
+      </p>
+      <p>Contract: 
+        <select name="Contract">
+          <option value="Month-to-month">Month-to-month</option>
+          <option value="One year">One year</option>
+          <option value="Two year">Two year</option>
+        </select>
+      </p>
+      <p>Paperless Billing: 
+        <select name="PaperlessBilling">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </p>
+      <p>Payment Method: 
+        <select name="PaymentMethod">
+          <option value="Electronic check">Electronic check</option>
+          <option value="Mailed check">Mailed check</option>
+          <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+          <option value="Credit card (automatic)">Credit card (automatic)</option>
+        </select>
+      </p>
+      <p>Monthly Charges: <input type="text" name="MonthlyCharges" /></p>
+      <p>Total Charges: <input type="text" name="TotalCharges" /></p>
+      <p><input type = 'submit' value = "Submit" /></p>
+    </form>
+    {% if prediction %}
+    {% if prediction > 0.70 %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. We recommend offering a discount package to try to keep you as a customer.</h3>
+      </div>
+    {% elif prediction > 0.50 %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. We recommend contacting them to see if there are any issues we can resolve.</h3>
+      </div>
+    {% else %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. Looks like he's a satisfied customer.</h3>
+      </div>
+    {% endif %}
+    {% endif %}
+  <footer>
+    <p>&copy; Telco SA 2023 [Eric Oliveira]. All rights reserved.</p>
+    <p>Contact: <a href="https://www.linkedin.com/in/eric-oliveira-ds">LinkedIn</a></p>
+  </footer>
+  </body>
+  </html>
