@@ -1,3 +1,4 @@
+<html>
 <head>
   <style>
     body {
@@ -10,15 +11,23 @@
   </style>
   <title>Telco SA churn predict</title>
 </head>
-  <body>
-    <h1 style="text-align:center;">Predict churn with a click:</h1>
-    <form action = "/predict" method = "post">
-      <p style="text-align:right;">Senior Citizen: 
-        <select name="SeniorCitizen" style="margin-left:10px;">
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-        </select>
-      </p>
+<body>
+  <h1 style="text-align: center;">Predict churn with a click:</h1>
+  <div style="text-align: center;">
+    <a href="/predict">
+      <input type="button" value="Predict single case">
+    </a>
+    <a href="/predict_csv">
+      <input type="button" value="Predict complete database from CSV">
+    </a>
+  </div>
+  <form action="/predict" method="post">
+    <p style="text-align: right;">Senior Citizen:
+      <select name="SeniorCitizen" style="margin-left: 10px;">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </p>
       <p style="text-align:right;">Partner: 
         <select name="Partner" style="margin-left:10px;">
           <option value="No">No</option>
@@ -113,6 +122,24 @@
       <p>Total Charges: <input type="text" name="TotalCharges" /></p>
       <p><input type = 'submit' value = "Submit" /></p>
     </form>
-    <p>Result of predict: {{ prediction }}</p>
+    {% if prediction %}
+    {% if prediction > 0.70 %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. We recommend offering a discount package to try to keep you as a customer.</h3>
+      </div>
+    {% elif prediction > 0.50 %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. We recommend contacting them to see if there are any issues we can resolve.</h3>
+      </div>
+    {% else %}
+      <div class="output">
+        <h3>The probability that the user cancels the service is: {{prediction[0]}}. Looks like he's a satisfied customer.</h3>
+      </div>
+    {% endif %}
+    {% endif %}
+  <footer>
+    <p>&copy; Telco SA 2023 [Eric Oliveira]. All rights reserved.</p>
+    <p>Contact: <a href="https://www.linkedin.com/in/eric-oliveira-ds">LinkedIn</a></p>
+  </footer>
   </body>
-</html>
+  </html>
