@@ -3,7 +3,7 @@ This project on GitHub, "Telco Customer Churn", aims to predict whether a teleco
 
 The financial impact of this model for the telecom company is significant. By identifying tolerant customers to leave early, the company can take steps to retain these customers, which can result in significant cost savings. The model can be used to calculate return on investment (ROI) in terms of cost savings, which helps to assess their financial impact to the business.
 
-The development team for this project provided a Python function to calculate the model's ROI, using measures such as recall and accuracy to assess the model's effectiveness. The function returns the ROI in dollars, representing how much money the model brings to the company.
+The development team for this project provided a Python function to calculate the model's ROI, using measures such as recall to assess the model's effectiveness. The function returns the ROI in reals, representing how much money the model brings to the company.
 
 Overall, this project is a valuable solution for telcos that want to identify customers they tolerate leaving early and take steps to retain them. With its financial impact clearly defined, it is a powerful tool to help a company maximize its return on investment.
 
@@ -18,7 +18,7 @@ You need this database for test the page; ``Predict complete database from CSV``
 
 Animation to understand the usage of the app:
 
-<img src="https://github.com/Eric-Oliveira-ds/Telco-Customer-Churn/blob/main/doc/Anima%C3%A7%C3%A3o.gif" width="650" height="400">
+<img src="https://github.com/Eric-Oliveira-ds/Telco-Customer-Churn/blob/main/doc/Anima%C3%A7%C3%A3o.gif" width="700" height="400">
 
 
 
