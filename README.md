@@ -18,7 +18,7 @@ You need this database for test the page; ``Predict complete database from CSV``
 
 Animation to understand the usage of the app:
 
-<img src="https://github.com/Eric-Oliveira-ds/Telco-Customer-Churn/blob/main/doc/Anima%C3%A7%C3%A3o.gif" width="400" height="300">
+<img src="https://github.com/Eric-Oliveira-ds/Telco-Customer-Churn/blob/main/doc/Anima%C3%A7%C3%A3o.gif" width="700" height="500">
 
 
 
