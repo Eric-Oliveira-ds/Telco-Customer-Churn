@@ -22,8 +22,9 @@ def churn_predict():
 
         pred_proba = model.predict_proba(test_raw)[:, 1]
 
-        test_raw["Prediction"] = pred_proba
-        test_raw["Prescription"] = np.where(pred_proba >= 0.50, "Potential Churn - Red alert", "No Potential Churn")
+        test_raw["Prediction"] = np.around(pred_proba, decimals=2)
+        test_raw["Prescription"] = np.where(pred_proba >= 0.70, "High Potential Churn - Red alert",
+                              np.where(pred_proba >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
 
         response = test_raw.to_dict(orient="records")
 
