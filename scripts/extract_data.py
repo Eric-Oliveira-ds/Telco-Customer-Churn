@@ -5,10 +5,10 @@ def read_data(data_path:str)-> pd.DataFrame:
     """ Funtion - Read csv file from path 
     and tranform column and save to parquet 
 
-        Receive:
-            data_path - path by csv data
-        Return: 
-            dataframe pandas
+    Args:
+        data_path (str) - path by csv data
+    Returns: 
+       pandas dataframe 
     """
     
     df = pd.read_csv(data_path)
