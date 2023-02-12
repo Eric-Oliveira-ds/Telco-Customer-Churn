@@ -10,6 +10,7 @@ Overall, this project is a valuable solution for telcos that want to identify cu
 In addition, the model performed impressively in identifying customers likely to leave. ``In the test set, there were 210 customers who were churn and the model was able to correctly identify 162 of them. With these accurate forecasts, it was possible to reduce costs for the company. In detail, these 210 churn customers brought a cost of BRL 22.471,91, but with the correct predictions made by the model, it was possible to reduce these costs to BRL 3.38 (99,98%)``. This is clear evidence of the effectiveness of the model and its significant financial impact for the telecom company.
 
 - Link for project management (Notion) - https://foggy-close-310.notion.site/Projeto-Telco-Customer-Churn-93b12a2f31094c2eba61a92b7cecc45a
+- Medium blog about this project: [Medium](https://medium.com/@Eric_Oliveira/prevenindo-a-perda-de-clientes-em-empresa-de-telecomunica%C3%A7%C3%B5es-com-an%C3%A1lise-de-dados-44dadf10a9e9)
 
 Documentation for you use this [web app](https://web-production-a6f58.up.railway.app/) deployed :
 
