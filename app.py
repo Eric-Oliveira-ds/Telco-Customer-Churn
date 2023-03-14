@@ -80,7 +80,6 @@ def predict_csv():
         df1 = pd.read_csv(csv_file)
 
         # Transform raw data
-        df1['TotalCharges'] = df1['TotalCharges'].apply(lambda x: float(x.replace(' ', '0')))
         df1['SeniorCitizen'] = df1['SeniorCitizen'].map({0:'No',1:'Yes'})
         df1 = df1.set_index(['customerID']).copy()
         df1.drop(['gender','PhoneService','Churn'], inplace=True, axis=1)
@@ -92,7 +91,7 @@ def predict_csv():
         df1["Prescription"] = np.where(pred_proba >= 0.70, "High Potential Churn - Red alert",
                               np.where(pred_proba >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
                               
-        df1 = df1.reset_index(drop=True)
+        #df1 = df1.reset_index(drop=True)
 
         return df1.to_html()
 
