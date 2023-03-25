@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 # Load model
-model = joblib.load(open(r'C:\Users\erico\Documents\projeto classificacao\Telco-Customer-Churn\models\model.pkl','rb'))
+model = joblib.load(open(r'C:\Users\erico\Documents\projeto-classificacao\Telco-Customer-Churn\models\model.pkl','rb'))
 
 app = Flask(__name__)
 
