@@ -16,7 +16,7 @@ def read_data(data_path:str)-> pd.DataFrame:
     df['TotalCharges'] = df['TotalCharges'].apply(lambda x: float(x.replace(' ', '0')))
     df['SeniorCitizen'] = df['SeniorCitizen'].map({0:'No',1:'Yes'})
 
-    df.to_parquet(r'C:\Users\erico\Documents\projeto-lassificacao\Telco-Customer-Churn\data\curated_data.parquet')
+    df.to_parquet(r'C:\Users\erico\Documents\projeto-classificacao\Telco-Customer-Churn\data\curated_data.parquet')
 
     dataframe = pd.read_parquet(r'C:\Users\erico\Documents\projeto-classificacao\Telco-Customer-Churn\data\curated_data.parquet')
 
