@@ -3,16 +3,22 @@ from flask import Flask, request, render_template
 import joblib
 import pandas as pd
 import numpy as np
+from evidently import ColumnMapping
+from evidently.report import Report
+from evidently.metric_preset import ClassificationPreset
+
 
 # Load model
 model = joblib.load(open('models/model.pkl','rb'))
 
 app = Flask(__name__)
 
+# HOME
 @app.route('/')
 def predict():
     return render_template('predict.html')
 
+# Predict single case
 @app.route('/predict',methods=['GET','POST'])
 def home():
 
@@ -70,37 +76,66 @@ def home():
 
     return render_template('predict.html', prediction = pred_proba)
 
+# MLOps
 @app.route('/predict_csv', methods=['GET', 'POST'])
-def predict_csv():
+def batch_monitoring():
 
     if request.method == 'POST':
         # get file
         csv_file = request.files['file']
-        # read file
-        df1 = pd.read_csv(csv_file)
+        # read current
+        current = pd.read_csv(csv_file)
+        # Transform raw data current
+        current['SeniorCitizen'] = current['SeniorCitizen'].map({0:'No',1:'Yes'})
+        current = current.set_index(['customerID']).copy()
+        current.drop(['gender','PhoneService'], inplace=True, axis=1)
+        # get predictions (current)
+        current['No'] = model.predict_proba(current)[:,0]
+        current['Yes'] = model.predict_proba(current)[:,1]
+        current['Prediction'] = model.predict(current)
+        current["Probability Positive"] =   np.around(current['Yes'], decimals=2)
+        current["Prescription"] = np.where(current['Yes'] >= 0.70, "High Potential Churn - Red alert",
+                                  np.where(current['Yes'] >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
 
-        # Transform raw data
-        df1['SeniorCitizen'] = df1['SeniorCitizen'].map({0:'No',1:'Yes'})
-        df1 = df1.set_index(['customerID']).copy()
-        df1.drop(['gender','PhoneService','Churn'], inplace=True, axis=1)
+        # read reference
+        reference = pd.read_csv('data/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+        reference = reference.sample(20)
+        # Transform raw data refernce
+        reference['SeniorCitizen'] = reference['SeniorCitizen'].map({0:'No',1:'Yes'})
+        reference = reference.set_index(['customerID']).copy()
+        reference.drop(['gender','PhoneService'], inplace=True, axis=1)
+        # get predictions (reference)
+        reference['No'] = model.predict_proba(reference)[:,0]
+        reference['Yes'] = model.predict_proba(reference)[:,1]
+        reference['Prediction'] = model.predict(reference)
+        reference["Probability Positive"] =   np.around(reference['Yes'], decimals=2)
+        reference["Prescription"] = np.where(reference['Yes'] >= 0.70, "High Potential Churn - Red alert",
+                                    np.where(reference['Yes'] >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
 
-        # get predictions
-        pred_proba = model.predict_proba(df1)[:, 1]
+        # generate classification performance dashboard
+        column_mapping = ColumnMapping()
+        column_mapping.target = 'Churn'
+        column_mapping.prediction = ['No', 'Yes']
+        column_mapping.pos_label = 'Yes'
 
-        df1["Prediction"] = np.around(pred_proba, decimals=2)
-        df1["Prescription"] = np.where(pred_proba >= 0.70, "High Potential Churn - Red alert",
-                              np.where(pred_proba >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
-                              
-        #df1 = df1.reset_index(drop=True)
+        classification_performance_report = Report(metrics=[ClassificationPreset(),])
+        classification_performance_report.run(reference_data=reference, current_data=current, column_mapping = column_mapping)
+        classification_performance_report.save_html('templates/production_monitoring_report.html')
+        
 
-        return df1.to_html()
+        return current.to_html()
 
     return '''
-        <form action="" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload">
-        </form>
-    '''
+            <form action="" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>
+        '''
+
+@app.route('/production_monitoring')
+def production_monitoring():
+
+    return render_template('production_monitoring_report.html')
 
     
 if __name__=='__main__':
