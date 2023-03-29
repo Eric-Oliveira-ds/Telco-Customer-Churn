@@ -3,7 +3,6 @@ This project on GitHub, "Telco Customer Churn", aims to predict whether a teleco
 
 The financial impact of this model for the telecom company is significant. By identifying tolerant customers to leave early, the company can take steps to retain these customers, which can result in significant cost savings. The model can be used to calculate return on investment (ROI) in terms of cost savings, which helps to assess their financial impact to the business.
 
-With the results obtained using the machine learning model, Telco SA could be reducing its costs with customer evasion by around $670.02 to $689.69 for every 705 customers expected in its base, counting on the success of the campaigns in retaining these customers in a real scenario.
 
 - Link for project management (Notion) - https://foggy-close-310.notion.site/Projeto-Telco-Customer-Churn-93b12a2f31094c2eba61a92b7cecc45a
 - Medium blog about this project: [Medium](https://medium.com/@Eric_Oliveira/prevenindo-a-perda-de-clientes-em-empresa-de-telecomunica%C3%A7%C3%B5es-com-an%C3%A1lise-de-dados-44dadf10a9e9)
