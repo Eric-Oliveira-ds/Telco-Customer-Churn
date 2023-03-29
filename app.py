@@ -76,7 +76,7 @@ def home():
 
     return render_template('predict.html', prediction = pred_proba)
 
-# MLOps
+# predict from database and praticie MLOps-monitoring results from model test
 @app.route('/predict_csv', methods=['GET', 'POST'])
 def batch_monitoring():
 
@@ -90,12 +90,14 @@ def batch_monitoring():
         current = current.set_index(['customerID']).copy()
         current.drop(['gender','PhoneService'], inplace=True, axis=1)
         # get predictions (current)
-        current['No'] = model.predict_proba(current)[:,0]
-        current['Yes'] = model.predict_proba(current)[:,1]
+        current['No'] = np.around(model.predict_proba(current)[:,0], decimals=2)
+        current['Yes'] = np.around(model.predict_proba(current)[:,1], decimals=2)
         current['Prediction'] = model.predict(current)
-        current["Probability Positive"] =   np.around(current['Yes'], decimals=2)
+        current['Prediction'] = current['Prediction'].map({1:'Churn', 0:'No Churn'})
         current["Prescription"] = np.where(current['Yes'] >= 0.70, "High Potential Churn - Red alert",
                                   np.where(current['Yes'] >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
+        # reset index ID column                      
+        current.reset_index(drop=True)
 
         # read reference
         reference = pd.read_csv('data/WA_Fn-UseC_-Telco-Customer-Churn.csv')
@@ -105,10 +107,10 @@ def batch_monitoring():
         reference = reference.set_index(['customerID']).copy()
         reference.drop(['gender','PhoneService'], inplace=True, axis=1)
         # get predictions (reference)
-        reference['No'] = model.predict_proba(reference)[:,0]
-        reference['Yes'] = model.predict_proba(reference)[:,1]
+        reference['No'] = np.around(model.predict_proba(reference)[:,0], decimals=2)
+        reference['Yes'] = np.around(model.predict_proba(reference)[:,1], decimals=2)
         reference['Prediction'] = model.predict(reference)
-        reference["Probability Positive"] =   np.around(reference['Yes'], decimals=2)
+        reference['Prediction'] = reference['Prediction'].map({1:'Churn', 0:'No Churn'})
         reference["Prescription"] = np.where(reference['Yes'] >= 0.70, "High Potential Churn - Red alert",
                                     np.where(reference['Yes'] >= 0.50, "Moderate Potential Churn - Yellow alert", "No Potential Churn"))
 
@@ -117,10 +119,14 @@ def batch_monitoring():
         column_mapping.target = 'Churn'
         column_mapping.prediction = ['No', 'Yes']
         column_mapping.pos_label = 'Yes'
-
+        # get dashboard
         classification_performance_report = Report(metrics=[ClassificationPreset(),])
         classification_performance_report.run(reference_data=reference, current_data=current, column_mapping = column_mapping)
         classification_performance_report.save_html('templates/production_monitoring_report.html')
+
+        # drop target
+        current.drop(['Churn'], inplace=True, axis=1)
+        reference.drop(['Churn'], inplace=True, axis=1)
         
 
         return current.to_html()
