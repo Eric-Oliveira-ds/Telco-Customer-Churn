@@ -7,7 +7,7 @@ The financial impact of this model for the telecom company is significant. By id
 - Link for project management (Notion) - https://foggy-close-310.notion.site/Projeto-Telco-Customer-Churn-93b12a2f31094c2eba61a92b7cecc45a
 - Medium blog about this project: [Medium](https://medium.com/@Eric_Oliveira/prevenindo-a-perda-de-clientes-em-empresa-de-telecomunica%C3%A7%C3%B5es-com-an%C3%A1lise-de-dados-44dadf10a9e9)
 
-Documentation for you use this [web app](https://web-production-a6f58.up.railway.app/) deployed :
+Documentation for you use this [web app](https://web-production-3b0d.up.railway.app/) deployed :
 
 You need this database for test the page; ``Predict complete database from CSV``:
 [test_prod_csv](https://github.com/Eric-Oliveira-ds/Telco-Customer-Churn/blob/main/data/teste_prod.csv)
